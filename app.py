@@ -3,24 +3,9 @@
 # Usage: http://127.0.0.1:5000/secret
 # user1 // user1_secret
 
-from flask import (
-    Flask,
-    Response,
-    redirect,
-    request,
-    session,
-    abort,
-    g
-)
-
-from flask_login import (
-    LoginManager,
-    UserMixin,
-    login_required,
-    login_user,
-    logout_user,
-    current_user
-)
+from flask import Flask, Response, redirect, url_for, request, session, abort, g
+from flask_login import LoginManager, UserMixin, \
+                                login_required, login_user, logout_user, current_user
 
 from datetime import timedelta
 
@@ -28,8 +13,8 @@ app = Flask(__name__)
 
 # config
 app.config.update(
-    DEBUG=True,
-    SECRET_KEY='s0me_Crazy_5stuFF_h3rE'
+    DEBUG = True,
+    SECRET_KEY = 'secret_xxx'
 )
 
 # flask-login
@@ -45,12 +30,12 @@ class User(UserMixin):
         self.id = id
         self.name = "user" + str(id)
         self.password = self.name + "_secret"
-
+        
     def __repr__(self):
         return "%d/%s/%s" % (self.id, self.name, self.password)
 
 
-# create some users with ids 1 to 20
+# create some users with ids 1 to 20       
 users = [User(id) for id in range(1, 21)]
 
 
@@ -61,13 +46,13 @@ users = [User(id) for id in range(1, 21)]
 def home():
     return Response("You've entered secret area")
 
-
+ 
 # somewhere to login
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == 'POST':
         username = request.form['username']
-        password = request.form['password']
+        password = request.form['password']        
         if password == username + "_secret":
             id = username
             user = User(id)
@@ -97,9 +82,9 @@ def logout():
 @app.errorhandler(401)
 def page_not_found(e):
     return Response('<p>Login failed</p>')
-
-
-# callback to reload the user object
+    
+    
+# callback to reload the user object        
 @login_manager.user_loader
 def load_user(userid):
     return User(userid)
@@ -114,8 +99,8 @@ def before_request():
     # from flask import g
     # from datetime import timedelta
 
-    # The flask-login module has a remember=True flag when logging in a user.
-    # Ensure this is set to ‘False’ otherwise the remember variable will
+    # The flask-login module has a remember=True flag when logging in a user. 
+    # Ensure this is set to ‘False’ otherwise the remember variable will 
     # override the session timeout.
 
     # Let Flask know that you need the session expiring.
@@ -131,3 +116,4 @@ def before_request():
 
 if __name__ == "__main__":
     app.run()
+
