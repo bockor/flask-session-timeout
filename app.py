@@ -3,6 +3,8 @@
 # Usage: http://127.0.0.1:5000/secret
 # user1 // user1_secret
 
+from datetime import timedelta
+
 from flask import (
     Flask,
     Response,
@@ -22,7 +24,6 @@ from flask_login import (
     current_user
 )
 
-from datetime import timedelta
 
 app = Flask(__name__)
 
@@ -47,11 +48,12 @@ class User(UserMixin):
         self.password = self.name + "_secret"
 
     def __repr__(self):
-        return "%d/%s/%s" % (self.id, self.name, self.password)
+        return f"{self.id} {self.name} {self.password}"
 
 
 # create some users with ids 1 to 20
 users = [User(id) for id in range(1, 21)]
+
 
 
 # some protected url
