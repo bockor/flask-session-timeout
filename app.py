@@ -125,7 +125,7 @@ def before_request():
     # Let Flask know that you only want the session to expire after 60 minutes
     # of inactivity
     app.permanent_session_lifetime = timedelta(minutes=1)
-    # session object won't automatically detect changes to mutable data types 
+    # session object won't automatically detect changes to mutable data types
     # (list, dictionary, set, etc.).
     # Therefore, mark the session object as modified
     session.modified = True
