@@ -120,6 +120,11 @@ def before_request():
     # Ensure this is set to ‘False’ otherwise the remember variable will
     # override the session timeout.
 
+    # Ref: https://flask-login.readthedocs.io/en/latest/
+	# flask_login.login_user(user, remember=False, duration=None, force=False, fresh=True)
+	# remember (bool) – Whether to remember the user after their session expires
+	# Defaults to False.
+
     # Let Flask know that you need the session expiring.
     session.permanent = True
     # Let Flask know that you only want the session to expire after 60 minutes
